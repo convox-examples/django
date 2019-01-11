@@ -93,8 +93,28 @@ convox run web python manage.py createsuperuser
 Finally you can retrieve the URL from your production application with
 
 ```bash
-
+convox services
 ```
 
+
+### Notes
+
+Please take note of the ```ALLOWED_HOSTS``` section of [settings.py]((https://github.com/convox-examples/django/blob/master/mysite/settings.py) ). If this is not configured correctly your application will not pass the load balancer health checks.
+````
+ALLOWED_HOSTS = ['.convox', '.site']
+
+# allow AWS internal IPs for healthcheck
+import requests
+EC2_PRIVATE_IP  =   None
+try:
+    EC2_PRIVATE_IP  =   requests.get('http://169.254.169.254/latest/meta-data/local-ipv4', timeout = 0.01).text
+except requests.exceptions.RequestException:
+    pass
+
+if EC2_PRIVATE_IP:
+    ALLOWED_HOSTS.append(EC2_PRIVATE_IP)
+````
+
+Also note that regardless of what webserver you are running it should be listening on ```0.0.0.0``` not localhost or ```127.0.0.1```
 
 
