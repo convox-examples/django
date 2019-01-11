@@ -52,7 +52,7 @@ You should now be able to access your application by going to [https://web.djang
 In order to deploy to production we have to ensure we have completed the following steps:
 
 1. [Signup for a Convox account](https://convox.com/signup)
-2. [Connect and AWS account](https://docs.convox.com/introduction/getting-started#connect-an-aws-account)
+2. [Connect an AWS account](https://docs.convox.com/introduction/getting-started#connect-an-aws-account)
 3. [Install an AWS Rack](https://docs.convox.com/introduction/getting-started#install-an-aws-rack)
 4. Make sure your CLI is [logged in](https://docs.convox.com/reference/login-and-authentication) to your Convox account using ```convox login``` and your [CLI Key](https://console.convox.com/account)
 
