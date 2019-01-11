@@ -1,0 +1,12 @@
+resources:
+  database:
+    type: postgres
+services:
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    port: 8000
+    resources:
+      - database
+    environment:
+      - SECRET_KEY=foo
