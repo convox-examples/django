@@ -20,7 +20,7 @@ The [convox.yml](https://github.com/convox-examples/django/blob/master/convox.ym
 
 1. Resources: These are network-attached dependencies of your application. In this case we have a single resource which is a postgres database. When [running locally](https://docs.convox.com/development/running-locally) Convox will automatically startup up a container running Postgres and will inject a ```DATABASE_URL``` environment variable into your application container that points to the Postgres database. When your application is [deployed](https://docs.convox.com/deployment/deploying-to-convox) to production Convox will startup an RDS postgres database for your application to use. 
 
-2. Services: This is where we define our application(s). In this case we have a single application called ```web``` which is built from our dockerfile, executes the standard Django development server command to startup, and uses the postgres resources for a database. You will also notice we have an [environment](https://docs.convox.com/management/environment) section where we are setting a default secret key for development. In production application you may have additional services defined for things like Celery task workers. You will also likely use a more robust web server such as [Gunicorn](https://gunicorn.org/) in place of the built in development server. 
+2. Services: This is where we define our application(s). In this case we have a single application called ```web``` which is built from our dockerfile, executes the [Gunicorn](https://gunicorn.org/) web server, and uses the postgres resource for a database. You will also notice we have an [environment](https://docs.convox.com/management/environment) section where we are setting a default secret key for development. In a production application you may have additional services defined for things like Celery task workers.
 
 ### Running Locally
 
@@ -96,25 +96,5 @@ Finally you can retrieve the URL from your production application with
 convox services
 ```
 
-
-### Notes
-
-Please take note of the ```ALLOWED_HOSTS``` section of [settings.py]((https://github.com/convox-examples/django/blob/master/mysite/settings.py) ). If this is not configured correctly your application will not pass the load balancer health checks.
-````
-ALLOWED_HOSTS = ['.convox', '.site']
-
-# allow AWS internal IPs for healthcheck
-import requests
-EC2_PRIVATE_IP  =   None
-try:
-    EC2_PRIVATE_IP  =   requests.get('http://169.254.169.254/latest/meta-data/local-ipv4', timeout = 0.01).text
-except requests.exceptions.RequestException:
-    pass
-
-if EC2_PRIVATE_IP:
-    ALLOWED_HOSTS.append(EC2_PRIVATE_IP)
-````
-
-Also note that regardless of what webserver you are running it should be listening on ```0.0.0.0``` not localhost or ```127.0.0.1```
 
 
