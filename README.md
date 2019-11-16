@@ -1,5 +1,4 @@
 # examples/django
-<hr>
 <a href="https://github.com/convox-examples/django/actions"><img alt="Convox Deploy Status" src="https://github.com/convox-examples/django/workflows/Convox%20Deploy/badge.svg"></a>
 <br>
 
